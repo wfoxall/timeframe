@@ -1,1 +1,1 @@
-export {Timecode,Framerate} from './Timeframe.js';
+export {Timecode,Framerate} from './Timeframe';

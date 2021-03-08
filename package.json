@@ -1,10 +1,13 @@
 {
-  "name": "timeframe",
+  "name": "@wfoxall/timeframe",
   "version": "1.0.0",
   "description": "A javascript library for parsing and manipulatio of SMPTE/EBU/Generic timecodes, framerates and framecounts.",
-  "main": "./dist/app.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "mocha ./dist/tests/test.js",
+    "prepublish": "tsc"
   },
   "keywords": [
     "timecode",
@@ -14,5 +17,20 @@
     "converter"
   ],
   "author": "Will Foxall",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^4.2.15",
+    "@types/mocha": "^8.2.1",
+    "chai": "^4.3.3",
+    "mocha": "^8.3.1"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wfoxall/timeframe.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wfoxall/timeframe/issues"
+  },
+  "homepage": "https://github.com/wfoxall/timeframe#readme"
 }
