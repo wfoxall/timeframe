@@ -2,12 +2,18 @@
 
 A javascript library for parsing and manipulation of SMPTE/EBU/Generic timecodes, framerates and framecounts.
 
+## Install
+
+```shell
+npm install @wfoxall/timeframe
+```
+
 ## Usage
 
 ### Timecode Class
 
 ```typescript
-import {Timecode} from '../';
+import {Timecode} from '@wfoxall/timeframe';
 
 const tc1 = new Timecode('00:01:01:00',"29.97DF");
 console.log(tc1.toString());
@@ -35,7 +41,7 @@ console.log(tc1.toString());
 Framerate objects can be instantiated by passing a FramerateLike value. The resulting object can then be used to initialize a Timecode instance.
 
 ```typescript
-import {Framerate} from '../';
+import {Framerate} from '@wfoxall/timeframe';
 
 let fr1 = new Framerate(29.97);
 console.log(fr1.toString());
