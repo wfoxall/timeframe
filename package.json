@@ -1,7 +1,7 @@
 {
   "name": "@wfoxall/timeframe",
   "version": "1.0.1",
-  "description": "A javascript library for parsing and manipulatio of SMPTE/EBU/Generic timecodes, framerates and framecounts.",
+  "description": "A javascript library for parsing and manipulation of SMPTE/EBU/Generic timecodes, framerates and framecounts.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
