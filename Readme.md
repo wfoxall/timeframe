@@ -33,7 +33,7 @@ console.log(sum.toString());
 
 tc1.addTimecode(tc3); // Mutable - tc1 is changed
 console.log(tc1.toString());
-// 00;07;52;27'
+// 00;07;52;27
 ```
 
 ### Framerate Class
