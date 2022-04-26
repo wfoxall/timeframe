@@ -1,44 +1,16 @@
 import {Timecode} from '../index';
 
-// const tc1 = new Timecode('00:01:01:00',"29.97DF");
-// console.log(tc1.toString());
-// // 00;01;01;00
-
-// const tc2 = new Timecode('00:01:02:15',{denom:1001,numer:30000,drop:true});
-// console.log(tc2.toString());
-// // 00;01;02;15
-
-// const tc3 = new Timecode(12345,29.97); // 29.97 and 59.94 numbers are interpretted as drop-frame by default
-// console.log(tc3.toString());
-// // 00;06;51;27
-
-// let sum = Timecode.add(tc1,tc2); // Immutable - tc1 and tc2 remain unchanged.
-// console.log(sum.toString());
-// // 00;02;03;15
-
-// tc1.addTimecode(tc3); // Mutable - tc1 is changed
-// console.log(tc1.toString());
-// // 00;07;52;27
-
-// import {Framerate} from '../';
-
-// let fr1 = new Framerate(29.97);
-// console.log(fr1.toString());
-// // 29.97DF
-
-// const tc = new Timecode("01:59:59:28",fr1);
-// console.log(tc.toString());
-// // 01;59;59;28
-
-// import mocha from 'mocha';
-// const {describe,suite} = mocha;
-// import chai from 'chai';
-// const {expect} = chai;
 import {describe,suite} from 'mocha';
 import {expect} from 'chai';
+import { Framerate } from '../Timeframe';
 
 const strTC1 = "00:00:00:00";
 
+const numFR1 = 25;
+const numFR2 = 29.97;
+const numFR3 = 33.3333;
+
+// Foundation for future test writing. More to follow soon.
 suite('String timecodes',()=>{
     describe(`${strTC1}`,()=>{
         it('should return 0 frames for all framerates',()=>{
@@ -55,6 +27,42 @@ suite('String timecodes',()=>{
             expect(new Timecode(strTC1,24).Frames).to.equal(0);
             expect(new Timecode(strTC1,29.97).Frames).to.equal(0);
             expect(new Timecode(strTC1,{denom:1001,numer:60000,drop:true}).Frames).to.equal(0);
+        })
+    })
+})
+
+suite('Numerical framerates',()=>{
+    describe(`${numFR1}`,()=>{
+        it('should be interpretted as integer timecode 25fps',()=>{
+            let framerate: Framerate = new Framerate(numFR1)
+            expect(framerate.toString(),'toString').to.equal('25');
+            expect(framerate.FPS,'FPS').to.equal(25);
+            expect(framerate.Drop,'Drop').to.equal(false);
+            expect(framerate.Baserate,'Baserate').to.equal(25);
+            expect(framerate.Fractional.numerator,'Fractional numerator').to.equal(25);
+            expect(framerate.Fractional.denominator,'Fractional denominator').to.equal(1);
+        })
+    })
+    describe(`${numFR2}`,()=>{
+        it('should be interpretted as integer timecode 29.97fps dropframe',()=>{
+            let framerate: Framerate = new Framerate(numFR2)
+            expect(framerate.toString(),'toString').to.equal('29.97DF');
+            expect(framerate.FPS,'FPS').to.equal(29.97);
+            expect(framerate.Drop,'Drop').to.equal(true);
+            expect(framerate.Baserate,'Baserate').to.equal(30);
+            expect(framerate.Fractional.numerator,'Fractional numerator').to.equal(30000);
+            expect(framerate.Fractional.denominator,'Fractional denominator').to.equal(1001);
+        })
+    })
+    describe(`${numFR3}`,()=>{
+        it('should be interpretted a fractional timecode',()=>{
+            let framerate: Framerate = new Framerate(numFR3)
+            expect(framerate.toString(),'toString').to.equal('33.33');
+            expect(framerate.FPS).to.equal(33.3333);
+            expect(framerate.Drop).to.equal(false);
+            expect(framerate.Baserate).to.equal(33);
+            expect(framerate.Fractional.numerator).to.equal(333333);
+            expect(framerate.Fractional.denominator).to.equal(10000);
         })
     })
 })
