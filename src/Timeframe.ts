@@ -149,6 +149,8 @@ export class Framerate {
     private baserate: number = 0;
     private fps: number = 0;
     private drop: boolean = false;
+    private numer: number = 0;
+    private denom: number = 1;
 
     constructor(framerate: FramerateLike){
         switch (typeof framerate) {
@@ -168,40 +170,52 @@ export class Framerate {
     private loadFromStandard(framerate: StandardFramerate){
         switch (framerate) {
             case "23.976":
-                [this.baserate,this.fps,this.drop] = [24,23.976,false]
+                [this.baserate,this.fps,this.drop] = [24,23.976,false];
+                [this.numer,this.denom] = [24000,1001];
                 break;
             case "24":
-                [this.baserate,this.fps,this.drop] = [24,24,false]
+                [this.baserate,this.fps,this.drop] = [24,24,false];
+                [this.numer,this.denom] = [24,1];
                 break;
             case "25":
-                [this.baserate,this.fps,this.drop] = [25,25,false]
+                [this.baserate,this.fps,this.drop] = [25,25,false];
+                [this.numer,this.denom] = [25,1];
                 break;
             case "29.97DF":
-                [this.baserate,this.fps,this.drop] = [30,29.97,true]
+                [this.baserate,this.fps,this.drop] = [30,29.97,true];
+                [this.numer,this.denom] = [30000,1001];
                 break;
             case "29.97NDF":
-                [this.baserate,this.fps,this.drop] = [30,29.97,false]
+                [this.baserate,this.fps,this.drop] = [30,29.97,false];
+                [this.numer,this.denom] = [30000,1001];
                 break;
             case "30":
-                [this.baserate,this.fps,this.drop] = [30,30,false]
+                [this.baserate,this.fps,this.drop] = [30,30,false];
+                [this.numer,this.denom] = [30,1];
                 break;
             case "48":
-                [this.baserate,this.fps,this.drop] = [48,48,false]
+                [this.baserate,this.fps,this.drop] = [48,48,false];
+                [this.numer,this.denom] = [48,1];
                 break;
             case "50":
-                [this.baserate,this.fps,this.drop] = [50,50,false]
+                [this.baserate,this.fps,this.drop] = [50,50,false];
+                [this.numer,this.denom] = [50,1];
                 break;
             case "59.94DF":
-                [this.baserate,this.fps,this.drop] = [60,59.94,true]
+                [this.baserate,this.fps,this.drop] = [60,59.94,true];
+                [this.numer,this.denom] = [60000,1001];
                 break;
             case "59.94NDF":
-                [this.baserate,this.fps,this.drop] = [60,59.94,false]
+                [this.baserate,this.fps,this.drop] = [60,59.94,false];
+                [this.numer,this.denom] = [60000,1001];
                 break;
             default:
                 throw new TimecodeError("Supplied framerate was in an unsupported format.");
         }
     }
     private loadFromFractional(framerate: FractionalFramerate){
+        this.denom = framerate.denom;
+        this.numer = framerate.numer;
         switch ((framerate.numer/framerate.denom).toFixed(3)) {
             case "23.976":
                 [this.baserate,this.fps,this.drop] = [24,23.976,false]
@@ -228,44 +242,81 @@ export class Framerate {
                 [this.baserate,this.fps,this.drop] = [60,59.94,(framerate.drop)?true:false]
                 break;
             default:
-                [this.baserate,this.fps,this.drop] = [Math.round(framerate.numer/framerate.denom),(framerate.numer/framerate.denom),false];
+                [this.baserate,this.fps,this.drop] = [Math.floor(framerate.numer/framerate.denom),(framerate.numer/framerate.denom),false];
                 break;
         }
     }
     private loadFromNumber(framerate: number){
         switch ((framerate).toFixed(3)) {
             case "23.976":
-                [this.baserate,this.fps,this.drop] = [24,23.976,false]
+                [this.baserate,this.fps,this.drop] = [24,23.976,false];
+                [this.numer,this.denom] = [24000,1001];
                 break;
             case "24.000":
-                [this.baserate,this.fps,this.drop] = [24,24,false]
+                [this.baserate,this.fps,this.drop] = [24,24,false];
+                [this.numer,this.denom] = [24,1];
                 break;
             case "25.000":
-                [this.baserate,this.fps,this.drop] = [25,25,false]
+                [this.baserate,this.fps,this.drop] = [25,25,false];
+                [this.numer,this.denom] = [25,1];
                 break;
             case "29.970":
-                [this.baserate,this.fps,this.drop] = [30,29.97,true]
+                [this.baserate,this.fps,this.drop] = [30,29.97,true];
+                [this.numer,this.denom] = [30000,1001];
                 break;
             case "30.000":
-                [this.baserate,this.fps,this.drop] = [30,30,false]
+                [this.baserate,this.fps,this.drop] = [30,30,false];
+                [this.numer,this.denom] = [30,1];
                 break;
             case "48.000":
-                [this.baserate,this.fps,this.drop] = [48,48,false]
+                [this.baserate,this.fps,this.drop] = [48,48,false];
+                [this.numer,this.denom] = [48,1];
                 break;
             case "50.000":
-                [this.baserate,this.fps,this.drop] = [50,50,false]
+                [this.baserate,this.fps,this.drop] = [50,50,false];
+                [this.numer,this.denom] = [50,1];
                 break;
             case "59.940":
-                [this.baserate,this.fps,this.drop] = [60,59.94,true]
+                [this.baserate,this.fps,this.drop] = [60,59.94,true];
+                [this.numer,this.denom] = [60000,1001];
                 break;
             default:
-                [this.baserate,this.fps,this.drop] = [Math.round(framerate),framerate,false];
+                [this.baserate,this.fps,this.drop] = [Math.floor(framerate),framerate,false];
+                if(Number.isInteger(this.fps)) [this.numer,this.denom] = [this.fps,1]
+                else{
+                    const frac = this.d2f(framerate);
+                    this.denom = frac.denominator;
+                    this.numer = frac.numerator;
+                }
                 break;
         }
     }
+    private gcd(a:number,b:number): number { if(b < 0.000001) return a; else return this.gcd(b, Math.floor(a % b)); }
+
+    private d2f(d:number) {
+        // const floor = Math.floor(d);
+        const frac = d;
+        const len = frac.toString().length - 2;
+        var denominator = Math.pow(10, len);
+        var numerator = frac * denominator;
+    
+        var divisor = this.gcd(numerator, denominator);
+    
+        numerator /= divisor;
+        denominator /= divisor;
+    
+        return {numerator,denominator};
+    }
+
     get Drop() { return this.drop };
     get FPS() { return this.fps };
     get Baserate() { return this.baserate };
+    get Fractional() {
+        return {
+            numerator: this.numer,
+            denominator: this.denom
+        }
+    }
 
     toString(): string {
         if(Number.isInteger(this.fps)) return this.fps.toFixed(0);
