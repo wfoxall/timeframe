@@ -121,6 +121,10 @@ export class Timecode {
         }
     }
 
+    get Framerate(): Framerate {
+        return this.framerate;
+    }
+
     addTimecode(tc: Timecode): Timecode{
         const result = Timecode.add(this,tc);
         this.frames = result.frames;
