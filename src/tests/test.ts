@@ -44,7 +44,7 @@ suite('Numerical framerates',()=>{
         })
     })
     describe(`${numFR2}`,()=>{
-        it('should be interpretted as integer timecode 29.97fps dropframe',()=>{
+        it('should be interpretted as numerical timecode 29.97fps dropframe',()=>{
             let framerate: Framerate = new Framerate(numFR2)
             expect(framerate.toString(),'toString').to.equal('29.97DF');
             expect(framerate.FPS,'FPS').to.equal(29.97);
@@ -69,6 +69,7 @@ suite('Numerical framerates',()=>{
 
 const strFR1 = "29.97DF"
 const strFR2 = "23.976"
+const strFR3 = "29.97"
 
 suite('String/Standard framerates',()=>{
     describe(`${strFR1}`,()=>{
@@ -83,13 +84,24 @@ suite('String/Standard framerates',()=>{
         })
     })
     describe(`${strFR2}`,()=>{
-        it('should be interpretted as integer timecode 23.976',()=>{
+        it('should be interpretted as standard framerate 23.976',()=>{
             let framerate: Framerate = new Framerate(strFR2)
             expect(framerate.toString(),'toString').to.equal('23.976');
             expect(framerate.FPS,'FPS').to.equal(23.976);
             expect(framerate.Drop,'Drop').to.equal(false);
             expect(framerate.Baserate,'Baserate').to.equal(24);
             expect(framerate.Fractional.numerator,'Fractional numerator').to.equal(24000);
+            expect(framerate.Fractional.denominator,'Fractional denominator').to.equal(1001);
+        })
+    })
+    describe(`${strFR3}`,()=>{
+        it('should be parsed to number and then interpreted as framerate 29.97 dropframe',()=>{
+            let framerate: Framerate = new Framerate(strFR3)
+            expect(framerate.toString(),'toString').to.equal('29.97DF');
+            expect(framerate.FPS,'FPS').to.equal(29.97);
+            expect(framerate.Drop,'Drop').to.equal(true);
+            expect(framerate.Baserate,'Baserate').to.equal(30);
+            expect(framerate.Fractional.numerator,'Fractional numerator').to.equal(30000);
             expect(framerate.Fractional.denominator,'Fractional denominator').to.equal(1001);
         })
     })
