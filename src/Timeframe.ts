@@ -1,4 +1,5 @@
-type StandardFramerate = "23.976" | "24" | "25" | "29.97DF" | "29.97NDF" | "30" | "48" | "50" | "59.94DF" | "59.94NDF";
+export const StandardFramerates = ["23.976", "24", "25", "29.97DF", "29.97NDF", "30", "48", "50", "59.94DF", "59.94NDF"] as const;
+type StandardFramerate = typeof StandardFramerates[number];
 type FractionalFramerate = {numer:number;denom:number;drop:boolean}
 type FramerateLike = StandardFramerate | FractionalFramerate | number;
 type TimecodeElements = {hh:number;mm:number;ss:number;ff:number}
