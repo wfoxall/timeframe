@@ -335,8 +335,8 @@ export class Framerate {
     }
 }
 
-class TimecodeError extends Error {
-    name = 'TimecodeError';
+export class TimecodeError extends Error {
+    name: 'TimecodeError' = 'TimecodeError';
     constructor(message: string){
         super(message);
         Object.setPrototypeOf(this,TimecodeError.prototype)

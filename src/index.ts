@@ -1,1 +1,1 @@
-export {Timecode,Framerate,StandardFramerates} from './Timeframe';
+export {Timecode,Framerate,StandardFramerates,TimecodeError} from './Timeframe';
