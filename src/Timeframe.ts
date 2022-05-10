@@ -89,7 +89,6 @@ export class Timecode {
         }else{
             this.framerate = new Framerate(framerate);
         }
-        let frames: number;
         if(typeof arg === "string"){
             const tcRegex = /([0-9]{1,2})[;:]([0-9]{1,2})[;:]([0-9]{1,2})[;:]([0-9]{1,2})/;
             const matchResults = tcRegex.exec(arg);
