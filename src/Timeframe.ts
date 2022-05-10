@@ -1,7 +1,7 @@
 export const StandardFramerates = ["23.976", "24", "25", "29.97DF", "29.97NDF", "30", "48", "50", "59.94DF", "59.94NDF"] as const;
 type StandardFramerate = typeof StandardFramerates[number];
 type FractionalFramerate = {numer:number;denom:number;drop:boolean}
-type FramerateLike = StandardFramerate | FractionalFramerate | number;
+type FramerateLike = StandardFramerate | FractionalFramerate | number | string;
 type TimecodeElements = {hh:number;mm:number;ss:number;ff:number}
 
 function timecodeToFrames(timecode: TimecodeElements, framerate: Framerate){
@@ -171,7 +171,7 @@ export class Framerate {
                 throw new TimecodeError("Supplied framerate was in an unsupported format.");
         }
     }
-    private loadFromStandard(framerate: StandardFramerate){
+    private loadFromStandard(framerate: StandardFramerate|string){
         switch (framerate) {
             case "23.976":
                 [this.baserate,this.fps,this.drop] = [24,23.976,false];
@@ -214,7 +214,10 @@ export class Framerate {
                 [this.numer,this.denom] = [60000,1001];
                 break;
             default:
+                if(!/^[0-9]+(?:\.[0-9]+)?$/.test(framerate))
                 throw new TimecodeError("Supplied framerate was in an unsupported format.");
+                const num = Number.parseFloat(framerate);
+                this.loadFromNumber(num);
         }
     }
     private loadFromFractional(framerate: FractionalFramerate){
